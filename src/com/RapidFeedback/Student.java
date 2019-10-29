@@ -12,15 +12,18 @@ public class Student {
     private String lastName;
     private String email;
     private int studentNumber;
+    private int group;
 
     public Student(int id, String firstName, String middleName, String lastName, String email,
-                   int studentNumber) {
+                   int studentNumber, int group) {
         this.id = id;
         this.studentNumber = studentNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
+        this.group = group;
+
     }
 
     public int getId() {
@@ -69,6 +72,14 @@ public class Student {
 
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
     }
 
 }

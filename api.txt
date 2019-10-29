@@ -98,6 +98,8 @@ POST
     lastName:  String
     studentNumber: int 
     email: String   // student's email
+    projectId: int
+    group: int
 }
 response
 {

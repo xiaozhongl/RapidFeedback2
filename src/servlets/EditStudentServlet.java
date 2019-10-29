@@ -73,6 +73,8 @@ public class EditStudentServlet extends HttpServlet {
 		String middleName = jsonReceive.getString("middleName");
 		String lastName = jsonReceive.getString("lastName");
 		String email = jsonReceive.getString("email");
+		int group = jsonReceive.getIntValue("group");
+		int projectId = jsonReceive.getIntValue("projectId");
 
 		ServletContext servletContext = this.getServletContext();
 		int loginId = Token.tokenToUser(servletContext, token);
@@ -84,7 +86,7 @@ public class EditStudentServlet extends HttpServlet {
 		// call the SQL method to edit the student information 
 		// return the 'true' or 'false' value to updateStudent_ACK
 		updateStudent_ACK = dbFunction.updateStudent(studentId, studentNumber, firstName,
-				lastName, middleName, email);
+				lastName, middleName, email, group, projectId);
 		}
 
 		// construct the JSONObject to send

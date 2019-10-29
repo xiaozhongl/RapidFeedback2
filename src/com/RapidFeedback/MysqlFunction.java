@@ -558,7 +558,7 @@ public class MysqlFunction {
 				id = createStudent(statements, student);
 				// add student to project
 				if (id != 0) {
-					if (!addStudentToProject(statements, projectId, id)) {
+					if (!addStudentToProject(statements, projectId, id, student.getGroup())) {
 						// could only due to database error
 						ack = -1 * student.getStudentNumber();
 						connection.close();
@@ -610,7 +610,7 @@ public class MysqlFunction {
 		return id;
 	}
 
-	private boolean addStudentToProject(HashMap<String,PreparedStatement> statements, int projectId, int studentId){
+	private boolean addStudentToProject(HashMap<String,PreparedStatement> statements, int projectId, int studentId, int group){
 //		"SELECT * FROM StudentInProject WHERE idProject = ? AND idStudent = ?"
 //		"INSERT INTO StudentInProject(idProject, idStudent, group, finalScore, " +
 //				"finalRemark, ifEmailed, idAudio) values(?,?,?,?,?,?,?)");
@@ -629,7 +629,7 @@ public class MysqlFunction {
 				// add the student to the project
 				addStudentToProject.setInt(1, projectId);
 				addStudentToProject.setInt(2, studentId);
-				addStudentToProject.setInt(3, 0);
+				addStudentToProject.setInt(3, group);
 				addStudentToProject.setDouble(4, -1);
 				addStudentToProject.setString(5, "");
 				addStudentToProject.setInt(6, 0);
@@ -693,7 +693,7 @@ public class MysqlFunction {
 	 * @return true if updated successfully; false if not
 	 */
 	public boolean updateStudent(int studentId, int studentNumber, String firstName, String lastName,
-								 String middleName, String email){
+								 String middleName, String email, int group, int projectId){
 		if (studentId == 1){
 			return false;
 		}
@@ -712,8 +712,15 @@ public class MysqlFunction {
 			statement.setString(5, email);
 			statement.setInt(6, studentId);
 			statement.executeUpdate();
-			updated = true;
 
+			statement = connection.prepareStatement(
+					"UPDATE StudentInProject SET `group` = ? WHERE idProject = ? AND idStudent= ?");
+			statement.setInt(1, group);
+			statement.setInt(2, projectId);
+			statement.setInt(3, studentId);
+			statement.executeUpdate();
+
+			updated = true;
 			connection.close();
 		} catch (SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
