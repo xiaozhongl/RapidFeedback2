@@ -1342,7 +1342,8 @@ public class MysqlFunction {
 			statements.put("getProjects", connection.prepareStatement(
 					"SELECT * FROM MarkerInProject RIGHT JOIN Project " +
 							"ON MarkerInProject.idProject = Project.id " +
-							"WHERE idMarker = ? OR idPrincipal = ?"));
+							"WHERE idMarker = ? AND idPrincipal <> 1 " +
+							"OR idPrincipal = ? "));
 			statements.put("getCriteria", connection.prepareStatement(
 					"SELECT * FROM ProjectCriterion INNER JOIN Criterion " +
 							"ON ProjectCriterion.idCriterion = Criterion.id " +

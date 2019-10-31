@@ -169,7 +169,7 @@ POST
 }
 response
 {
-    mark_AC: boolean
+    ACK: boolean
 }
 
 /SendEmailServlet
