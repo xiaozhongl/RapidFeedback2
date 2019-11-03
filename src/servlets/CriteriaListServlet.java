@@ -80,7 +80,7 @@ public class CriteriaListServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		boolean ack = false;
 		
-		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
 			List<Criterion> criterionList = new Gson().fromJson(criterionListString,
 					new TypeToken<List<Criterion>>(){}.getType());
 			ArrayList<Criterion> criterionArrayList = new ArrayList();
@@ -95,7 +95,7 @@ public class CriteriaListServlet extends HttpServlet {
 			if (deleted) {
 				ack = dbFunction.addCriteria(criterionArrayList, projectId);
 			}
-		}
+//		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

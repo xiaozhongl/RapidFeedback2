@@ -182,7 +182,7 @@ public class PDFUtil {
 
 		String studentName = student.getFirstName();
 		String studentNumber = String.valueOf(student.getStudentNumber());
-		String audioFile = String.valueOf(db.createAudio());
+		String audioFile = String.valueOf(student.getAudioId());
 		String finalScore = String.valueOf(student.getFinalScore());
 		String finalRemark = student.getFinalRemark();
 		ArrayList<Remark> remarkList = student.getRemarkList();
@@ -208,7 +208,7 @@ public class PDFUtil {
 				new BaseColor(0, 0, 0));// the font of the lecturer name in
 
 		// create
-		pdfUtil.createDocument(filePath + "/pdf/" + fileName);
+		pdfUtil.createDocument(filePath + fileName);
 
 		// create the first page
 		Chapter chapter = PDFUtil.createChapter(
@@ -245,7 +245,7 @@ public class PDFUtil {
 
 		Phrase text5 = PDFUtil.createPhrase(
 				"Your audio feedback can be downloaded at:\n"
-						+ filePath + "/audio/" + audioFile + ".mp4", markFont);
+						+ "http://121.221.0.43:8080/RapidFeedback/audio/" + audioFile + ".mp4", markFont);
 		section5.add(text5);
 
 		Section section6 = PDFUtil.createSection(chapter, "Date", sectionFont,

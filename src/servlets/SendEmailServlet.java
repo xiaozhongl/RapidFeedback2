@@ -93,13 +93,12 @@ public class SendEmailServlet extends HttpServlet {
 		String projectName = project.getName();
 		String studentEmail = projectStudent.getEmail();
 		String firstName = projectStudent.getFirstName();
-		String filePath = servletContext.getRealPath("/");
+		String filePath = servletContext.getRealPath("/") + "/pdf/";
 		int markerId = Token.tokenToUser(servletContext, token);
-		if (dbFunction.isMarkerPrincipal(markerId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(markerId, projectId)) {
 			String studentNumber = String.valueOf(projectStudent.getStudentNumber());
 			String fileName = projectName + "_" + studentNumber + ".pdf";
 			String markerEmail = dbFunction.getMarkerEmail(markerId);
-	
 			pdf.create(projectStudent, project, filePath, fileName);
 			boolean sendStudent = sendEmail(markerEmail, servletContext,
 						projectName, studentEmail,
@@ -118,7 +117,7 @@ public class SendEmailServlet extends HttpServlet {
 	
 			// delete files
 			deletefile_ACK = pdf.deletePdf(filePath + fileName);
-			}
+//			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

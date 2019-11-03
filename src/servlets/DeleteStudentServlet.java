@@ -71,13 +71,13 @@ public class DeleteStudentServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		boolean updateStudent_ACK = false;
 		
-		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
 			// Mention:
 			// call the SQL method to delete the student whose student number
 			// is 'studentNumber' from a project whose name is 'projectName'.
 			// return the 'true' or 'false' value to updateStudent_ACK
 			updateStudent_ACK = dbFunction.deleteStudentFromProject(projectId, studentId);
-		}
+//		}
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
 		jsonSend.put("updateStudent_ACK", updateStudent_ACK);

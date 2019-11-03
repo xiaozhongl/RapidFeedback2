@@ -80,14 +80,14 @@ public class EditStudentServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		boolean updateStudent_ACK = false;
 		
-		if (dbFunction.isMarkerPrincipal(loginId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId)) {
 		
 		// Mention:
 		// call the SQL method to edit the student information 
 		// return the 'true' or 'false' value to updateStudent_ACK
 		updateStudent_ACK = dbFunction.updateStudent(studentId, studentNumber, firstName,
 				lastName, middleName, email, group, projectId);
-		}
+//		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

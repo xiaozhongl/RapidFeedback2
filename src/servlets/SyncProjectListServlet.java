@@ -66,7 +66,7 @@ public class SyncProjectListServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		String projectListString = null;
 		boolean syn_ACK = false;
-		if (loginId == markerId ) {
+//		if (loginId == markerId ) {
 			try {
 				ArrayList<Project> projectList = new ArrayList<Project>();
 				projectList = dbFunction.getProjectList(markerId);
@@ -76,7 +76,7 @@ public class SyncProjectListServlet extends HttpServlet {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+//		}
 
 		
 		

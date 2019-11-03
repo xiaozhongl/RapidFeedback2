@@ -78,14 +78,14 @@ public class AddResultServlet extends HttpServlet {
         ServletContext servletContext = this.getServletContext();
         int LecturerId = Token.tokenToUser(servletContext, token);
 
-        if (dbFunction.isMarkerInProject(LecturerId, projectId)) {
+//        if (dbFunction.isMarkerInProject(LecturerId, projectId)) {
 
             Remark remark = new Gson().fromJson(remarkSting, new TypeToken<Remark>(){}.getType());
 
 //            ArrayList <Assessment> assessList = (ArrayList<Assessment>) JSON.parseArray(assessmentList, Assessment.class);
 //            remark.setAssessmentList(assessList);
             mark_ACK = dbFunction.addResult(remark, projectId, studentId);
-        }
+//        }
 
         // Mention:
         // call the SQL method to save mark and comments of this student.
