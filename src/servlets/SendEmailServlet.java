@@ -101,6 +101,7 @@ public class SendEmailServlet extends HttpServlet {
 			String markerEmail = dbFunction.getMarkerEmail(markerId);
 	
 			pdf.create(projectStudent, project, filePath, fileName);
+			filePath += "/pdf/";
 			boolean sendStudent = sendEmail(markerEmail, servletContext,
 						projectName, studentEmail,
 						firstName, studentNumber, filePath,
