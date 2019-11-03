@@ -115,7 +115,7 @@ public class AudioRecorderServlet extends HttpServlet {
         // set the maxium of file 
         factory.setSizeThreshold(maxMemSize);
         // Location to save data that is larger than maxMemSize.
-        String path = getServletContext().getRealPath("/") + "/";
+        String path = getServletContext().getRealPath("/") + "/audio/";
         factory.setRepository(new File(path));
         System.out.println(path);
         // create a new file addressed process
@@ -135,7 +135,7 @@ public class AudioRecorderServlet extends HttpServlet {
                     // get the parameter of file
                     String fieldName = fi.getFieldName();
                   
-                    String fileName = String.valueOf(1910250000 + db.createAudio());
+                    String fileName = String.valueOf(db.createAudio());
                     
                     String contentType = fi.getContentType();
                   

@@ -23,7 +23,7 @@ public class MysqlFunction {
 
 
 	private Connection connectToDB(String url, String userName,
-			String password) {
+								   String password) {
 		Connection conn = null;
 		try {
 			// Register JDBC driver
@@ -40,7 +40,6 @@ public class MysqlFunction {
 		// System.out.println("Successfully Connected to DB...");
 		return conn;
 	}
-
 
 
 //	public int logIn(String mail, String password) throws SQLException {
@@ -80,53 +79,53 @@ public class MysqlFunction {
 	 * description: user login function
 	 * create time: 2019/10/17 10:37 PM
 	 *
-	 * @Param: email
-	 * @Param: password
 	 * @return markerId if login information correction; -1 if email does not exist; 0 if password is wrong
+	 * @Param: email
+	 * @Param: password
 	 */
-    public int logIn(String email, String password){
-        int ack = -1;
-        Connection connection;
-        PreparedStatement statement;
-        ResultSet rs;
-        try {
-            connection  = connectToDB(DB_URL, USER, PASS);
-            statement = connection.prepareStatement("SELECT * FROM Marker WHERE email = ?");
-            statement.setString(1, email);
-            rs = statement.executeQuery();
+	public int logIn(String email, String password) {
+		int ack = -1;
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet rs;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Marker WHERE email = ?");
+			statement.setString(1, email);
+			rs = statement.executeQuery();
 
-            if (rs.next()) {
-                if (rs.getString("password").equals(password)) {
-                    ack = rs.getInt("id");
-                } else {
-                    ack = 0;
-                }
-            }
-            connection.close();
-        } catch (SQLException se) {
-            // JDBC faults
-            se.printStackTrace();
-            ack = -2;
-        }
-        return ack;
-    }
+			if (rs.next()) {
+				if (rs.getString("password").equals(password)) {
+					ack = rs.getInt("id");
+				} else {
+					ack = 0;
+				}
+			}
+			connection.close();
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+			ack = -2;
+		}
+		return ack;
+	}
 
 	/**
 	 * create by: Xiaozhong Liu
 	 * description: create a new marker in database
 	 * create time: 2019/9/16 9:54 PM
 	 *
-	 * @Param: email
-	 * @Param: password
-	 * @Param: firstName
-	 * @Param: middleName
-	 * @Param: lastName
 	 * @return the marker's id if add successfully;
-	 * 		   0 if fail to create
-	 * 		   -1 if email exist
+	 * 0 if fail to create
+	 * -1 if email exist
+	 * @Param: email
+	 * @Param: password
+	 * @Param: firstName
+	 * @Param: middleName
+	 * @Param: lastName
 	 */
 	public int addMarker(String email, String password, String firstName,
-							   String middleName, String lastName) {
+						 String middleName, String lastName) {
 		int id = 0;
 		Connection connection;
 		PreparedStatement addMarker;
@@ -144,8 +143,7 @@ public class MysqlFunction {
 			rs = getMarker.executeQuery();
 			if (rs.next()) {
 				return -1;
-			}
-			else {
+			} else {
 				// create the marker in database
 				addMarker.setString(1, email);
 				addMarker.setString(2, password);
@@ -171,10 +169,10 @@ public class MysqlFunction {
 	 * description: get a marker's full name given the marker's id
 	 * create time: 2019/9/16 10:44 PM
 	 *
-	 * @Param: id
 	 * @return the marker's full name if found; or null if not found
+	 * @Param: id
 	 */
-	public String getMarkerName(int id){
+	public String getMarkerName(int id) {
 		String name = null;
 		Connection connection;
 		ResultSet rs;
@@ -184,7 +182,7 @@ public class MysqlFunction {
 			statement = connection.prepareStatement("SELECT * FROM Marker WHERE id= ?");
 			statement.setInt(1, id);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				name = rs.getString("firstName") + " "
 						+ rs.getString("middleName") + " "
 						+ rs.getString("lastName");
@@ -196,7 +194,7 @@ public class MysqlFunction {
 		return name;
 	}
 
-	public String getMarkerEmail(int id){
+	public String getMarkerEmail(int id) {
 		String email = null;
 		Connection connection;
 		ResultSet rs;
@@ -206,7 +204,7 @@ public class MysqlFunction {
 			statement = connection.prepareStatement("SELECT * FROM Marker WHERE id= ?");
 			statement.setInt(1, id);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				email = rs.getString("email");
 			}
 			connection.close();
@@ -216,7 +214,7 @@ public class MysqlFunction {
 		return email;
 	}
 
-	public boolean isMarkerInProject(int markerId, int projectId){
+	public boolean isMarkerInProject(int markerId, int projectId) {
 		boolean isMarkerInProject = false;
 		Connection connection;
 		ResultSet rs;
@@ -228,7 +226,7 @@ public class MysqlFunction {
 			statement.setInt(1, markerId);
 			statement.setInt(2, projectId);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				isMarkerInProject = true;
 			}
 			connection.close();
@@ -238,7 +236,7 @@ public class MysqlFunction {
 		return isMarkerInProject;
 	}
 
-	public boolean isMarkerPrincipal(int markerId, int projectId){
+	public boolean isMarkerPrincipal(int markerId, int projectId) {
 		boolean isMarkerPrincipal = false;
 		Connection connection;
 		ResultSet rs;
@@ -250,7 +248,7 @@ public class MysqlFunction {
 			statement.setInt(1, markerId);
 			statement.setInt(2, projectId);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				isMarkerPrincipal = true;
 			}
 			connection.close();
@@ -260,7 +258,7 @@ public class MysqlFunction {
 		return isMarkerPrincipal;
 	}
 
-	public boolean isMarkerPrincipal(int markerId){
+	public boolean isMarkerPrincipal(int markerId) {
 		boolean isMarkerPrincipal = false;
 		Connection connection;
 		ResultSet rs;
@@ -271,7 +269,7 @@ public class MysqlFunction {
 					"SELECT * FROM Project WHERE idPrincipal = ?");
 			statement.setInt(1, markerId);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				isMarkerPrincipal = true;
 			}
 			connection.close();
@@ -286,17 +284,17 @@ public class MysqlFunction {
 	 * description: create a project in database
 	 * create time: 2019/9/15 8:18 PM
 	 *
-	 * @Param: principalId: principal marker's id
-	 * @Param: projectName
-	 * @Param: subjectCode
-	 * @Param: subjectName
-	 * @Param: duration	in second
-	 * @Param: warning: time left in second when warning
-	 * @Param: description of project
 	 * @return project id or 0 if fail to create
+	 * @Param: principalId: principal marker's id
+	 * @Param: projectName
+	 * @Param: subjectCode
+	 * @Param: subjectName
+	 * @Param: duration    in second
+	 * @Param: warning: time left in second when warning
+	 * @Param: description of project
 	 */
 	public int createProject(String projectName, String subjectName, String subjectCode,
-				 	int duration, int warning, String description, int principalId) {
+							 int duration, int warning, String description, int principalId) {
 		Connection connection;
 		PreparedStatement statement;
 		ResultSet rs;
@@ -310,11 +308,11 @@ public class MysqlFunction {
 			statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			statement.setString(1, projectName);
 			statement.setString(2, subjectName);
-			statement.setString(3,subjectCode);
-			statement.setInt(4,duration);
+			statement.setString(3, subjectCode);
+			statement.setInt(4, duration);
 			statement.setInt(5, warning);
-			statement.setString(6,description);
-			statement.setInt(7,principalId);
+			statement.setString(6, description);
+			statement.setInt(7, principalId);
 			statement.executeUpdate();
 			rs = statement.getGeneratedKeys();
 			if (rs.next()) {
@@ -332,14 +330,14 @@ public class MysqlFunction {
 	 * description: update the project information in database
 	 * create time: 2019/9/15 8:28 PM
 	 *
-	 * @Param: projectId the primary key in Project table
-	 * @Param: projectName
-	 * @Param: subjectCode
-	 * @Param: subjectName
-	 * @Param: duration in second
-	 * @Param: warning time left in second when warning
-	 * @Param: description
 	 * @return True if update successfully; False if fail to update
+	 * @Param: projectId the primary key in Project table
+	 * @Param: projectName
+	 * @Param: subjectCode
+	 * @Param: subjectName
+	 * @Param: duration in second
+	 * @Param: warning time left in second when warning
+	 * @Param: description
 	 */
 	public boolean updateProject(int projectId, String projectName, String subjectName,
 								 String subjectCode, int duration,
@@ -375,10 +373,10 @@ public class MysqlFunction {
 	 * description: soft delete a project from database
 	 * create time: 2019/9/15 8:30 PM
 	 *
-	 * @Param: projectId the primary key in Project table
 	 * @return True if delete successfully; False if fail to delete
+	 * @Param: projectId the primary key in Project table
 	 */
-	public boolean deleteProject(int projectId){
+	public boolean deleteProject(int projectId) {
 		boolean deleted = false;
 		Connection connection;
 		PreparedStatement statement;
@@ -401,11 +399,11 @@ public class MysqlFunction {
 	 * description: assign a marker to a project
 	 * create time: 2019/9/17 11:24 AM
 	 *
-	 * @Param: markerId
-	 * @Param: projectId
 	 * @return 1 if add successfully
-	 * 		   0 if SQL Exception
-	 * 		   -1 if marker id invalid
+	 * 0 if SQL Exception
+	 * -1 if marker id invalid
+	 * @Param: markerId
+	 * @Param: projectId
 	 */
 	public int addProjectMarker(int markerId, int projectId) {
 		int ack = 0;
@@ -422,13 +420,12 @@ public class MysqlFunction {
 
 			getMarker.setInt(1, markerId);
 			rs = getMarker.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				addMarker.setInt(1, markerId);
 				addMarker.setInt(2, projectId);
 				addMarker.executeUpdate();
 				ack = 1;
-			}
-			else {
+			} else {
 				ack = -1;
 			}
 			connection.close();
@@ -443,9 +440,9 @@ public class MysqlFunction {
 	 * description: resign a marker from a project
 	 * create time: 2019/9/17 11:30 AM
 	 *
-	 * @Param: markerId
-	 * @Param: projectId
 	 * @return true if resign successfully; false if not
+	 * @Param: markerId
+	 * @Param: projectId
 	 */
 	public boolean deleteProjectMarker(int markerId, int projectId) {
 		boolean deleted = false;
@@ -523,28 +520,29 @@ public class MysqlFunction {
 	 * description: add a list of students to a project
 	 * create time: 2019/10/19 2:50 PM
 	 *
-	 * @Param: studentList
-	 * @Param: projectId
 	 * @return 1 if all students are added successfully
-	 * 		   0 if SQL exception
-	 *		   -studentNumber if the student information is illegal
+	 * 0 if SQL exception
+	 * -studentNumber if the student information is illegal
+	 * @Param: studentList
+	 * @Param: projectId
 	 */
-	public int addStudents(ArrayList<Student> studentList,int projectId) {
+
+	public int addStudents(ArrayList<Student> studentList, int projectId) {
 		int ack = 0;
 		int id;
 		Connection connection;
-		HashMap<String,PreparedStatement> statements = new HashMap<String, PreparedStatement>();
+		HashMap<String, PreparedStatement> statements = new HashMap<String, PreparedStatement>();
 
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
 
 			// prepare statements
 			statements.put("getStudent", connection.prepareStatement(
-							"SELECT * FROM Student WHERE studentNumber = ?"));
+					"SELECT * FROM Student WHERE studentNumber = ?"));
 
 			statements.put("addStudent", connection.prepareStatement(
 					"INSERT INTO Student(firstName, middleName, lastName, studentNumber, email) " +
-							"VALUES (?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS));
+							"VALUES (?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS));
 
 			statements.put("addStudentToProject", connection.prepareStatement(
 					"INSERT INTO StudentInProject(idProject, idStudent, `group`, finalScore, " +
@@ -564,8 +562,7 @@ public class MysqlFunction {
 						connection.close();
 						return ack;
 					}
-				}
-				else{
+				} else {
 					ack = -1 * student.getStudentNumber();
 					connection.close();
 					return ack;
@@ -579,19 +576,18 @@ public class MysqlFunction {
 		return ack;
 	}
 
-	private int createStudent(HashMap<String,PreparedStatement> statements, Student student){
+	private int createStudent(HashMap<String, PreparedStatement> statements, Student student) {
 		int id = 0;
 		PreparedStatement getStudent = statements.get("getStudent");
 		PreparedStatement addStudent = statements.get("addStudent");
 		ResultSet rs;
-		try{
+		try {
 			//check if student exists
 			getStudent.setInt(1, student.getStudentNumber());
 			rs = getStudent.executeQuery();
 			if (rs.next()) {
 				id = rs.getInt("id");
-			}
-			else{
+			} else {
 				// add student to database
 				addStudent.setString(1, student.getFirstName());
 				addStudent.setString(2, student.getMiddleName());
@@ -600,7 +596,7 @@ public class MysqlFunction {
 				addStudent.setString(5, student.getEmail());
 				addStudent.executeUpdate();
 				rs = addStudent.getGeneratedKeys();
-				if(rs.next()){
+				if (rs.next()) {
 					id = rs.getInt(1);
 				}
 			}
@@ -610,7 +606,7 @@ public class MysqlFunction {
 		return id;
 	}
 
-	private boolean addStudentToProject(HashMap<String,PreparedStatement> statements, int projectId, int studentId, int group){
+	private boolean addStudentToProject(HashMap<String, PreparedStatement> statements, int projectId, int studentId, int group) {
 //		"SELECT * FROM StudentInProject WHERE idProject = ? AND idStudent = ?"
 //		"INSERT INTO StudentInProject(idProject, idStudent, group, finalScore, " +
 //				"finalRemark, ifEmailed, idAudio) values(?,?,?,?,?,?,?)");
@@ -624,8 +620,7 @@ public class MysqlFunction {
 			rs = getStudentFromProject.executeQuery();
 			if (rs.next()) {
 				return true;
-			}
-			else{
+			} else {
 				// add the student to the project
 				addStudentToProject.setInt(1, projectId);
 				addStudentToProject.setInt(2, studentId);
@@ -684,17 +679,17 @@ public class MysqlFunction {
 	 * description: update a student's information
 	 * create time: 2019/9/15 11:20 PM
 	 *
-	 * @Param: studentId
-	 * @Param: studentNumber
-	 * @Param: firstName
-	 * @Param: lastName
-	 * @Param: middleName
-	 * @Param: email
 	 * @return true if updated successfully; false if not
+	 * @Param: studentId
+	 * @Param: studentNumber
+	 * @Param: firstName
+	 * @Param: lastName
+	 * @Param: middleName
+	 * @Param: email
 	 */
 	public boolean updateStudent(int studentId, int studentNumber, String firstName, String lastName,
-								 String middleName, String email, int group, int projectId){
-		if (studentId == 1){
+								 String middleName, String email, int group, int projectId) {
+		if (studentId == 1) {
 			return false;
 		}
 		boolean updated = false;
@@ -734,10 +729,10 @@ public class MysqlFunction {
 	 * description: update the group number of students in a project
 	 * create time: 2019/9/15 9:49 PM
 	 *
-	 * @Param: projectId
-	 * @Param: studentId
-	 * @Param: group
 	 * @return True if update successfully; False if fail to update
+	 * @Param: projectId
+	 * @Param: studentId
+	 * @Param: group
 	 */
 	public boolean updateGroupNumber(int projectId, int studentId, int group) {
 		boolean updated = false;
@@ -766,14 +761,14 @@ public class MysqlFunction {
 	 * description: update final result of a student
 	 * create time: 2019/9/15 10:27 PM
 	 *
-	 * @Param: projectId
-	 * @Param: studentId
-	 * @Param: score
-	 * @Param: remark
 	 * @return True if update successfully; False if fail to update
+	 * @Param: projectId
+	 * @Param: studentId
+	 * @Param: score
+	 * @Param: remark
 	 */
 	public boolean updateFinalResult(int projectId, int studentId, double finalScore,
-						String finalRemark) {
+									 String finalRemark) {
 		boolean updated = false;
 		Connection connection;
 		PreparedStatement statement;
@@ -802,9 +797,9 @@ public class MysqlFunction {
 	 * description: delete a student from a project
 	 * create time: 2019/9/15 10:33 PM
 	 *
-	 * @Param: projectId
-	 * @Param: studentNumber
 	 * @return True if delete successfully; False if fail to delete
+	 * @Param: projectId
+	 * @Param: studentNumber
 	 */
 	public boolean deleteStudentFromProject(int projectId, int studentId) {
 		boolean deleted = false;
@@ -836,21 +831,20 @@ public class MysqlFunction {
 	}
 
 
-
 	/**
 	 * create by: Xiaozhong Liu
 	 * description: add the result for a student in a project from a marker
 	 * create time: 2019/10/5 11:20 AM
 	 *
-	 * @Param: remark
-	 * @Param: projectId
-	 * @Param: studentId
 	 * @return if successfully; if not
+	 * @Param: remark
+	 * @Param: projectId
+	 * @Param: studentId
 	 */
-	public boolean addResult(Remark remark, int projectId, int studentId){
+	public boolean addResult(Remark remark, int projectId, int studentId) {
 		boolean added = false;
 		Connection connection;
-		HashMap<String,PreparedStatement> statements = new HashMap<String, PreparedStatement>();
+		HashMap<String, PreparedStatement> statements = new HashMap<String, PreparedStatement>();
 //		ArrayList<PreparedStatement> statements = new ArrayList<PreparedStatement>();
 		try {
 
@@ -866,7 +860,7 @@ public class MysqlFunction {
 					"INSERT INTO SelectedComment(idProject, idCriterion, idStudent, idMarker, " +
 							"idField, idExpandedComment) VALUES (?,?,?,?,?,?)"));
 
-			if(addRemark(statements, remark, projectId, studentId)){
+			if (addRemark(statements, remark, projectId, studentId)) {
 				added = true;
 			}
 			connection.close();
@@ -876,7 +870,7 @@ public class MysqlFunction {
 		return added;
 	}
 
-	private boolean addRemark(HashMap<String,PreparedStatement> statements, Remark remark,
+	private boolean addRemark(HashMap<String, PreparedStatement> statements, Remark remark,
 							  int projectId, int studentId) {
 //		"INSERT INTO Remark(idProject, idStudent, idMarker, text) values(?,?,?,?)";
 		boolean added = false;
@@ -889,7 +883,7 @@ public class MysqlFunction {
 			statement.executeUpdate();
 			for (int i = 0; i < remark.getAssessmentList().size(); i++) {
 				if (!addAssessment(statements, remark.getAssessmentList().get(i),
-						projectId, studentId, remark.getId())){
+						projectId, studentId, remark.getId())) {
 					return false;
 				}
 			}
@@ -900,8 +894,8 @@ public class MysqlFunction {
 		return added;
 	}
 
-	private boolean addAssessment(HashMap<String,PreparedStatement> statements, Assessment assessment,
-								  int projectId, int studentId, int markerId){
+	private boolean addAssessment(HashMap<String, PreparedStatement> statements, Assessment assessment,
+								  int projectId, int studentId, int markerId) {
 //		"INSERT INTO Assessment(idProject, idCriterion, idStudent, idMarker, score) VALUES (?,?,?,?,?)"
 		boolean added = false;
 		PreparedStatement statement = statements.get("addAssessment");
@@ -917,7 +911,7 @@ public class MysqlFunction {
 				if (!selectComment(statements.get("selectComment"),
 						assessment.getSelectedCommentList().get(i),
 						projectId, assessment.getCriterionId(),
-						studentId, markerId)){
+						studentId, markerId)) {
 					return false;
 				}
 			}
@@ -928,8 +922,8 @@ public class MysqlFunction {
 		return added;
 	}
 
-		private boolean selectComment(PreparedStatement statement, SelectedComment selComment,
-									  int projectId, int criterionId, int studentId, int markerId){
+	private boolean selectComment(PreparedStatement statement, SelectedComment selComment,
+								  int projectId, int criterionId, int studentId, int markerId) {
 //			"INSERT INTO SelectedComment(idProject, idCriterion, idStudent, idMarker, idField,
 //				idExpandedComment) VALUES (?,?,?,?,?,？)"
 		boolean selected = false;
@@ -953,11 +947,11 @@ public class MysqlFunction {
 	 * description: Add a list of criterion to the given project
 	 * create time: 2019/10/5 10:25 AM
 	 *
-	 * @Param: criterionList
-	 * @Param: projectId
 	 * @return if successfully; if not
+	 * @Param: criterionList
+	 * @Param: projectId
 	 */
-	public boolean addCriteria(ArrayList<Criterion> criterionList, int projectId){
+	public boolean addCriteria(ArrayList<Criterion> criterionList, int projectId) {
 		boolean allAdded = false;
 		Connection connection;
 		// contains five prepared statements [addCriterion, addField, addComment, addExpandedComment, addToProject]
@@ -996,7 +990,7 @@ public class MysqlFunction {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
 		}
 		return allAdded;
-}
+	}
 
 	private int addCriterion(ArrayList<PreparedStatement> statements, Criterion criterion, int projectId) {
 //		"INSERT INTO Criterion(name) values(?)"
@@ -1014,14 +1008,14 @@ public class MysqlFunction {
 
 				// add fields
 				for (int i = 0; i < criterion.getFieldList().size(); i++) {
-					if(addField(statements, criterion.getFieldList().get(i), id) == 0){
+					if (addField(statements, criterion.getFieldList().get(i), id) == 0) {
 						return 0;
 					}
 				}
 
 				// add the criterion to the project
 				if (!addProjectCriterion(addToProject, projectId, id, criterion.getMaximumMark(),
-						criterion.getWeight(), criterion.getMarkIncrement())){
+						criterion.getWeight(), criterion.getMarkIncrement())) {
 					return 0;
 				}
 			}
@@ -1051,7 +1045,7 @@ public class MysqlFunction {
 		return added;
 	}
 
-	private int addField(ArrayList<PreparedStatement> statements, Field field, int criterionId){
+	private int addField(ArrayList<PreparedStatement> statements, Field field, int criterionId) {
 //		"INSERT INTO Field(name, idCriterion) values(?,?)"
 		int id = 0;
 		ResultSet rs;
@@ -1066,7 +1060,7 @@ public class MysqlFunction {
 
 				// add comments
 				for (int i = 0; i < field.getCommentList().size(); i++) {
-					if (addComment(statements, field.getCommentList().get(i), id) == 0){
+					if (addComment(statements, field.getCommentList().get(i), id) == 0) {
 						return 0;
 					}
 				}
@@ -1078,7 +1072,7 @@ public class MysqlFunction {
 	}
 
 
-	private int addComment(ArrayList<PreparedStatement> statements, Comment comment, int fieldId){
+	private int addComment(ArrayList<PreparedStatement> statements, Comment comment, int fieldId) {
 //		"INSERT INTO Comment(text, idField, type) values(?,?,?)"
 		int id = 0;
 		ResultSet rs;
@@ -1094,7 +1088,7 @@ public class MysqlFunction {
 
 				// add expanded comments
 				for (int i = 0; i < comment.getExpandedCommentList().size(); i++) {
-					if (addExpandedComment(statements, id, comment.getExpandedCommentList().get(i).getText())== 0){
+					if (addExpandedComment(statements, id, comment.getExpandedCommentList().get(i).getText()) == 0) {
 						return 0;
 					}
 				}
@@ -1106,7 +1100,7 @@ public class MysqlFunction {
 	}
 
 
-	private int addExpandedComment(ArrayList<PreparedStatement> statements, int idComment, String text){
+	private int addExpandedComment(ArrayList<PreparedStatement> statements, int idComment, String text) {
 //		"INSERT INTO ExpandedComment(text, idComment) values(?,?)"
 		int id = 0;
 		ResultSet rs;
@@ -1163,8 +1157,8 @@ public class MysqlFunction {
 	 * description: delete all criteria for a project, used before add criteria when updating project criterion
 	 * create time: 2019/9/17 2:22 PM
 	 *
-	 * @Param: projectId
 	 * @return true if delete successfully; false if not
+	 * @Param: projectId
 	 */
 	public boolean deleteCriteria(int projectId) {
 		boolean deleted = false;
@@ -1194,7 +1188,7 @@ public class MysqlFunction {
 			statement = connection.prepareStatement("SELECT * FROM Criterion WHERE id = ?");
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				name = resultSet.getString("name");
 			}
 			connection.close();
@@ -1214,7 +1208,7 @@ public class MysqlFunction {
 			statement = connection.prepareStatement("SELECT * FROM Field WHERE id = ?");
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				name = resultSet.getString("name");
 			}
 			connection.close();
@@ -1234,7 +1228,7 @@ public class MysqlFunction {
 			statement = connection.prepareStatement("SELECT * FROM ExpandedComment WHERE id = ?");
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				text = resultSet.getString("text");
 			}
 			connection.close();
@@ -1284,7 +1278,6 @@ public class MysqlFunction {
 //	}
 
 
-
 //	/**
 //	 * create by: Xiaozhong Liu
 //	 * description: update a field in project
@@ -1325,13 +1318,13 @@ public class MysqlFunction {
 	 * description: get a list of project with the marker involved
 	 * create time: 2019/10/5 11:21 AM
 	 *
-	 * @Param: markerId
 	 * @return if successfully; if not
+	 * @Param: markerId
 	 */
-	public ArrayList<Project> getProjectList (int markerId){
+	public ArrayList<Project> getProjectList(int markerId) {
 		ArrayList<Project> projectList = new ArrayList<Project>();
 		Connection connection;
-		HashMap<String,PreparedStatement> statements = new HashMap<String,PreparedStatement>();
+		HashMap<String, PreparedStatement> statements = new HashMap<String, PreparedStatement>();
 		PreparedStatement getProjects;
 		ResultSet rs;
 		Project project;
@@ -1402,7 +1395,7 @@ public class MysqlFunction {
 		return projectList;
 	}
 
-	public Project getProject (int projectId){
+	public Project getProject(int projectId) {
 		Connection connection;
 		PreparedStatement statement;
 		ResultSet rs;
@@ -1430,9 +1423,9 @@ public class MysqlFunction {
 		return project;
 	}
 
-	public ProjectStudent getProjectStudent (int studentId, int projectId){
+	public ProjectStudent getProjectStudent(int studentId, int projectId) {
 		Connection connection;
-		HashMap<String,PreparedStatement> statements = new HashMap<String,PreparedStatement>();
+		HashMap<String, PreparedStatement> statements = new HashMap<String, PreparedStatement>();
 		PreparedStatement getStudent;
 		ResultSet rs;
 		ProjectStudent student = null;
@@ -1479,7 +1472,7 @@ public class MysqlFunction {
 		return student;
 	}
 
-	private ArrayList<Marker> getMarkerList(HashMap<String,PreparedStatement> statements,
+	private ArrayList<Marker> getMarkerList(HashMap<String, PreparedStatement> statements,
 											int projectId) throws SQLException {
 //		"SELECT * FROM MarkerInProject INNER JOIN Marker " +
 //				"ON MarkerInProject.idMarker = Marker.id " +
@@ -1520,9 +1513,7 @@ public class MysqlFunction {
 	}
 
 
-
-
-	private ArrayList<ProjectStudent> getStudentList(HashMap<String,PreparedStatement> statements, int projectId){
+	private ArrayList<ProjectStudent> getStudentList(HashMap<String, PreparedStatement> statements, int projectId) {
 //		"SELECT * FROM StudentInProject INNER JOIN Student ON StudentInProject.idStudent = Student.id " +
 //				"WHERE idProject = ?"
 		ArrayList<ProjectStudent> studentList = new ArrayList<ProjectStudent>();
@@ -1554,8 +1545,8 @@ public class MysqlFunction {
 		return studentList;
 	}
 
-	private ArrayList<Remark> getRemarkList(HashMap<String,PreparedStatement> statements,
-														  int projectId, int studentId){
+	private ArrayList<Remark> getRemarkList(HashMap<String, PreparedStatement> statements,
+											int projectId, int studentId) {
 //		"SELECT * FROM Remark WHERE idProject = ? AND idStudent = ?"
 		ArrayList<Remark> remarkList = new ArrayList<Remark>();
 		PreparedStatement statement = statements.get("getStudentMarkers");
@@ -1580,8 +1571,8 @@ public class MysqlFunction {
 		return remarkList;
 	}
 
-	private ArrayList<Assessment> getAssessmentList(HashMap<String,PreparedStatement> statements, int projectId,
-													int studentId, int markerId){
+	private ArrayList<Assessment> getAssessmentList(HashMap<String, PreparedStatement> statements, int projectId,
+													int studentId, int markerId) {
 //		"SELECT * FROM Assessment WHERE idProject = ? AND idStudent = ? AND idMarker = ?"
 		ArrayList<Assessment> assessmentList = new ArrayList<Assessment>();
 		PreparedStatement statement = statements.get("getAssessments");
@@ -1606,8 +1597,8 @@ public class MysqlFunction {
 		return assessmentList;
 	}
 
-	private ArrayList<SelectedComment> getSelectedCommentList(HashMap<String,PreparedStatement> statements, int projectId,
-														 int criterionId, int studentId, int markerId){
+	private ArrayList<SelectedComment> getSelectedCommentList(HashMap<String, PreparedStatement> statements, int projectId,
+															  int criterionId, int studentId, int markerId) {
 //		"SELECT * FROM SelectedComment WHERE idProject = ? AND idCriterion = ? AND idStudent = ? AND idMarker = ?"
 		ArrayList<SelectedComment> selCommentList = new ArrayList<SelectedComment>();
 		PreparedStatement statement = statements.get("getSelectedComments");
@@ -1632,7 +1623,7 @@ public class MysqlFunction {
 	}
 
 
-	private ArrayList<Criterion> getCriterionList(HashMap<String,PreparedStatement> statements, int projectId){
+	private ArrayList<Criterion> getCriterionList(HashMap<String, PreparedStatement> statements, int projectId) {
 //		"SELECT * FROM ProjectCriterion INNER JOIN Criterion ON ProjectCriterion.idCriterion = Criterion.id " +
 //				"WHERE idProject = ?"
 		ArrayList<Criterion> criterionList = new ArrayList<Criterion>();
@@ -1694,7 +1685,7 @@ public class MysqlFunction {
 //		return criterionList;
 //	}
 
-	private ArrayList<Field> getFieldList(HashMap<String,PreparedStatement> statements, int criterionId){
+	private ArrayList<Field> getFieldList(HashMap<String, PreparedStatement> statements, int criterionId) {
 //		"SELECT * FROM Field WHERE idCriterion = ?")
 		ArrayList<Field> fieldList = new ArrayList<Field>();
 		PreparedStatement getFields = statements.get("getFields");
@@ -1714,7 +1705,7 @@ public class MysqlFunction {
 		return fieldList;
 	}
 
-	private ArrayList<Comment> getCommentList(HashMap<String,PreparedStatement> statements, int fieldId){
+	private ArrayList<Comment> getCommentList(HashMap<String, PreparedStatement> statements, int fieldId) {
 //		"SELECT * FROM Comment WHERE idField = ?"
 		ArrayList<Comment> commentList = new ArrayList<Comment>();
 		PreparedStatement getComments = statements.get("getComments");
@@ -1929,7 +1920,7 @@ public class MysqlFunction {
 							"WHERE idProject = ? AND idStudent = ?");
 
 			statement.setInt(1, projectId);
-			statement.setInt(2,studentId);
+			statement.setInt(2, studentId);
 			statement.executeUpdate();
 			updated = true;
 		} catch (SQLException e) {
@@ -1938,7 +1929,7 @@ public class MysqlFunction {
 		return updated;
 	}
 
-	public double getMaximumMark(int criterionId, int projectId){
+	public double getMaximumMark(int criterionId, int projectId) {
 		double mark = -1;
 		Connection connection;
 		ResultSet rs;
@@ -1950,7 +1941,7 @@ public class MysqlFunction {
 			statement.setInt(1, projectId);
 			statement.setInt(2, criterionId);
 			rs = statement.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				mark = rs.getDouble("maximumMark");
 			}
 			connection.close();
@@ -1960,44 +1951,6 @@ public class MysqlFunction {
 		return mark;
 	}
 
-//	public List<Integer> queryProjects(String mail) throws SQLException {
-//		List<Integer> numList = new ArrayList<Integer>();
-//		int id = 0;
-//		Connection conn = null;
-//		ResultSet rs = null;
-//		Statement stmt = null;
-//		try {
-//			conn = connectToDB(DB_URL, USER, PASS);
-//			stmt = conn.createStatement();
-//			String sql;
-//			sql = "SELECT * FROM Lecturers";
-//			rs = stmt.executeQuery(sql);
-//			System.out.println(sql);
-//			while (rs.next()) {
-//				// id = rs.getInt("idLecturers");
-//				// System.out.println("kkkkk"+id);
-//				if (rs.getString("email").equals(mail)) {
-//					id = rs.getInt("idLecturers");
-//				} else {
-//					continue;
-//				}
-//			}
-//			sql = "SELECT * FROM Lecturers_has_Project WHERE idLecturers ="
-//					+ id;
-//			rs = stmt.executeQuery(sql);
-//			System.out.println(sql);
-//			while (rs.next()) {
-//				int pjId = rs.getInt(2);
-//				numList.add(pjId);
-//			}
-//		} catch (SQLException se) {
-//			// JDBC faults
-//			se.printStackTrace();
-//		} finally {
-//			disconnectDB(conn, stmt, rs);
-//		}
-//		return numList;
-//	}
 
 	public int createAudio() {
 		Connection connection;
@@ -2020,4 +1973,26 @@ public class MysqlFunction {
 		return id;
 	}
 
+
+	public boolean updateAudio(int projectId, int studentId, int audioId) {
+		boolean updated = false;
+		Connection connection;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"UPDATE StudentInProject SET idAudio = ? " +
+							"WHERE idProject = ? AND idStudent = ?");
+
+			statement.setInt(1, audioId);
+			statement.setInt(2, projectId);
+			statement.setInt(3, studentId);
+			statement.executeUpdate();
+			updated = true;
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return updated;
+	}
 }
