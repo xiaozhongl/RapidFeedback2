@@ -78,7 +78,7 @@ public class AddStudentServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		int ack = 0;
 		
-		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
 			List<Student> studentList= new Gson().fromJson(studentListString,
 					new TypeToken<List<Student>>(){}.getType());
 			ArrayList<Student> studentArrayList = new ArrayList();
@@ -91,7 +91,7 @@ public class AddStudentServlet extends HttpServlet {
 			//addStudent will only return id which is an int, 0 or minus number both means fail, which will lead to a false to updateStudent_ACK
 			//postive id will lead to a true updateStudent_ACK
 			ack = dbFunction.addStudents(studentArrayList, projectId);
-		}
+//		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

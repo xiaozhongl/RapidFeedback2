@@ -135,15 +135,18 @@ public class AudioRecorderServlet extends HttpServlet {
                     // get the parameter of file
                     String fieldName = fi.getFieldName();
 
+
                     String filename = fi.getName();
                     String[] strs = filename.split("_");
                     int projectId = Integer.parseInt(strs[0]);
                     int studentId = Integer.parseInt(strs[1]);
 
+
                     int audioId = db.createAudio();
                     String fileName = String.valueOf(audioId);
                     db.updateAudio(projectId, studentId, audioId);
-                    
+
+
                     String contentType = fi.getContentType();
                   
                     boolean isInMemory = fi.isInMemory();

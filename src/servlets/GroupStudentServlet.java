@@ -73,7 +73,7 @@ public class GroupStudentServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		boolean updateStudent_ACK = false;
 		
-		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
 
 		// Mention:
 		// call the SQL method to edit the student groupID of a certain studentNumber
@@ -82,7 +82,7 @@ public class GroupStudentServlet extends HttpServlet {
 		// get the studentId from FE
 		// return the 'true' or 'false' value to updateStudent_ACK
 			updateStudent_ACK = dbFunction.updateGroupNumber(projectId,	studentId, group);
-		}
+//		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

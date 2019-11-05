@@ -76,14 +76,14 @@ public class InviteAssessorServlet extends HttpServlet {
 
 		ServletContext servletContext = this.getServletContext();
 		int principalMakerId = Token.tokenToUser(servletContext, token);
-		if (dbFunction.isMarkerPrincipal(principalMakerId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(principalMakerId, projectId)) {
 			try {
 				markerName = dbFunction.getMarkerName(markerId);
 				invite_ACK = dbFunction.addProjectMarker(markerId, projectId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+//		}
 	
 		
 		

@@ -68,13 +68,13 @@ public class DeleteProjectServlet extends HttpServlet {
 		int loginId = Token.tokenToUser(servletContext, token);
 		boolean updateProject_ACK = false;
 		
-		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
+//		if (dbFunction.isMarkerPrincipal(loginId, projectId)) {
 
 			// Mention:
 			// call the SQL method to delete the project according to projectId
 			// give the result "true" or "false" to updateProject_ACK
 			updateProject_ACK = dbFunction.deleteProject(projectId);
-		}
+//		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

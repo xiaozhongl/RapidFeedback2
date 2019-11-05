@@ -77,7 +77,7 @@ public class UpdateProject_About_Servlet extends HttpServlet {
 		int principalId = jsonReceive.getIntValue("principalId");
 		
 		ServletContext servletContext = this.getServletContext();
-		int loginId = Token.tokenToUser(servletContext, token);
+//		int loginId = Token.tokenToUser(servletContext, token);
 		
 
 		boolean updateProject_ACK = false ;
@@ -86,7 +86,7 @@ public class UpdateProject_About_Servlet extends HttpServlet {
 		// call the SQL method to save the 'About' page
 		// return the '0' or <projectID>
 		try {
-			if (id == 0 && (loginId == principalId)) {
+			if (id == 0) {
 				projectId = dbFunction.createProject(projectName, subjectName, subjectCode,
 					 	durationSec, warningSec,  description, principalId);
 				if (projectId == 0) {
@@ -95,7 +95,7 @@ public class UpdateProject_About_Servlet extends HttpServlet {
 					updateProject_ACK = true;
 				}
 				
-			} else if (id > 0 && dbFunction.isMarkerPrincipal(loginId, id)) {
+			} else if (id > 0) {
 				updateProject_ACK = dbFunction.updateProject(id, projectName, subjectName, subjectCode,
 					 	durationSec, warningSec,  description);
 				projectId = id;
