@@ -1,9 +1,8 @@
 package servlets;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import com.RapidFeedback.*;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,14 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.RapidFeedback.MysqlFunction;
-import com.RapidFeedback.PDFUtil;
-import com.RapidFeedback.Project;
-import com.RapidFeedback.ProjectStudent;
-import com.RapidFeedback.SendMail;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @ClassName SendEmailServlet
@@ -44,7 +38,7 @@ public class SendEmailServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+                         HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ")
 				.append(request.getContextPath());
 	}
@@ -54,7 +48,7 @@ public class SendEmailServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+                          HttpServletResponse response) throws ServletException, IOException {
 
 		MysqlFunction dbFunction = new MysqlFunction();
 
@@ -93,12 +87,13 @@ public class SendEmailServlet extends HttpServlet {
 		String projectName = project.getName();
 		String studentEmail = projectStudent.getEmail();
 		String firstName = projectStudent.getFirstName();
-		String filePath = servletContext.getRealPath("/") + "/pdf/";
+		String filePath = servletContext.getRealPath("");
 		int markerId = Token.tokenToUser(servletContext, token);
-//		if (dbFunction.isMarkerPrincipal(markerId, projectId)) {
+		if (dbFunction.isMarkerPrincipal(markerId, projectId)) {
 			String studentNumber = String.valueOf(projectStudent.getStudentNumber());
 			String fileName = projectName + "_" + studentNumber + ".pdf";
 			String markerEmail = dbFunction.getMarkerEmail(markerId);
+	
 			pdf.create(projectStudent, project, filePath, fileName);
 			boolean sendStudent = sendEmail(markerEmail, servletContext,
 						projectName, studentEmail,
@@ -117,7 +112,7 @@ public class SendEmailServlet extends HttpServlet {
 	
 			// delete files
 			deletefile_ACK = pdf.deletePdf(filePath + fileName);
-//			}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
